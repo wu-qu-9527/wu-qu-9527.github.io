@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #24302d;
+  --color-paper: #f6f5f1;
+  --color-muted: #7c8984;
+  --color-accent: #2e6253;
+  --font-sans: "DM Sans", "Noto Sans SC", sans-serif;
+  --font-mono: "DM Mono", monospace;
+}

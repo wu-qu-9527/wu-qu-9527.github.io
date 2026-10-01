@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.0",
+    "@tailwindcss/vite": "^4.3.3",
     "astro": "^5.0.0",
-    "gray-matter": "^4.0.3"
+    "gray-matter": "^4.0.3",
+    "tailwindcss": "^4.3.3"
   }
 }
