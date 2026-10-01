@@ -3,6 +3,10 @@ Thumbs.db
 db.json
 *.log
 node_modules/
-public/
+.astro/
+.pnpm-store/
+dist/
+astro-env.d.ts
+*.tsbuildinfo
 .deploy*/
 _multiconfig.yml

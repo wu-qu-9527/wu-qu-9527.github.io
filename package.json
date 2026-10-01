@@ -1,28 +1,16 @@
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
+  "name": "fei-miao-blog",
+  "type": "module",
   "private": true,
+  "packageManager": "pnpm@11.19.0",
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server"
-  },
-  "hexo": {
-    "version": "7.3.0"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
   },
   "dependencies": {
-    "hexo": "^7.3.0",
-    "hexo-generator-archive": "^2.0.0",
-    "hexo-generator-category": "^2.0.0",
-    "hexo-generator-index": "^4.0.0",
-    "hexo-generator-tag": "^2.0.0",
-    "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-less": "^4.0.0",
-    "hexo-renderer-marked": "^6.3.0",
-    "hexo-renderer-stylus": "^3.0.1",
-    "hexo-server": "^3.0.0",
-    "hexo-theme-async": "^2.2.2",
-    "hexo-theme-landscape": "^1.0.0"
+    "@astrojs/rss": "^4.0.0",
+    "astro": "^5.0.0",
+    "gray-matter": "^4.0.3"
   }
 }

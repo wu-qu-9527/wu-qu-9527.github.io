@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { legacyPostPath, postDate } from '../lib/posts';
+
+const posts = (await getCollection('posts')).sort(
+  (a, b) => postDate(b.id, b.data.date).getTime() - postDate(a.id, a.data.date).getTime(),
+);
+---
+<BaseLayout title="首页">
+  <section class="intro">
+    <p class="eyebrow">个人博客 <span>·</span> 学习与记录</p>
+    <h1>你好，<span>欢迎来访。</span></h1>
+    <p class="lede">这里记录技术学习、项目实践，以及那些值得留下来的想法。</p>
+    <div class="intro-mark" aria-hidden="true">FM<span>·</span></div>
+  </section>
+
+  <section class="posts" aria-labelledby="posts-title">
+    <div class="section-heading">
+      <h2 id="posts-title">最近文章 <span>WRITING</span></h2>
+      <span class="count">{String(posts.length).padStart(2, '0')} 篇</span>
+    </div>
+    {posts.length ? (
+      <div class="post-list">
+        {posts.map((post) => {
+          const date = postDate(post.id, post.data.date);
+          return (
+            <a class="post-row" href={legacyPostPath(post.id, post.data.date)}>
+              <span class="post-date">{date.getFullYear()}.{String(date.getMonth() + 1).padStart(2, '0')}.{String(date.getDate()).padStart(2, '0')}</span>
+              <span class="post-title">{post.data.title}</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          );
+        })}
+      </div>
+    ) : (
+      <p class="empty">文章正在整理中。</p>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .intro { position: relative; padding: 84px 0 78px; border-bottom: 1px solid var(--line); overflow: hidden; }
+  .eyebrow { margin: 0 0 22px; color: var(--green); font: 11px var(--mono); letter-spacing: .08em; }
+  .eyebrow span { margin: 0 5px; color: #b0b7b2; }
+  h1 { max-width: 620px; margin: 0; font-size: clamp(40px, 7vw, 68px); line-height: 1.2; letter-spacing: -.065em; font-weight: 600; }
+  h1 span { color: #87938d; }
+  .lede { margin: 24px 0 0; max-width: 490px; color: var(--muted); font-size: 14px; line-height: 1.9; }
+  .intro-mark { position: absolute; right: 0; bottom: 8px; color: #e8e9e3; font: 110px/.9 var(--mono); letter-spacing: -.12em; user-select: none; }
+  .intro-mark span { color: #b7c9bb; }
+  .posts { padding: 42px 0 70px; }
+  .section-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  h2 { margin: 0; font-size: 15px; font-weight: 600; }
+  h2 span { margin-left: 10px; color: #98a29d; font: 9px var(--mono); letter-spacing: .08em; }
+  .count { color: var(--muted); font: 10px var(--mono); }
+  .post-row { display: grid; grid-template-columns: 112px 1fr 22px; align-items: center; gap: 18px; min-height: 68px; border-bottom: 1px solid var(--line); }
+  .post-date { color: var(--muted); font: 10px var(--mono); }
+  .post-title { font-size: 14px; font-weight: 500; }
+  .arrow { justify-self: end; color: #9ca69f; font-size: 16px; transition: transform .2s; }
+  .post-row:hover .arrow { transform: translate(2px, -2px); color: var(--green); }
+  .empty { padding: 24px 0; color: var(--muted); font-size: 13px; }
+  @media (max-width: 600px) {
+    .intro { padding: 66px 0 58px; }
+    .intro-mark { right: -6px; bottom: 3px; font-size: 74px; }
+    .post-row { grid-template-columns: 86px 1fr 16px; gap: 10px; min-height: 64px; }
+    .post-title { font-size: 13px; }
+  }
+</style>

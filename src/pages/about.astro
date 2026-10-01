@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="关于">
+  <section class="about">
+    <p class="eyebrow">ABOUT THIS SPACE</p>
+    <h1>关于这个角落</h1>
+    <p>你好，我是人不如狗。</p>
+    <p>这里用来记录技术学习、项目实践和日常思考。内容会慢慢更新，欢迎常来看看。</p>
+    <a href="/">回到文章列表 ↗</a>
+  </section>
+</BaseLayout>
+<style>
+  .about { max-width: 620px; margin: 0 auto; padding: 92px 0; }
+  .eyebrow { color: var(--green); font: 10px var(--mono); letter-spacing: .08em; }
+  h1 { margin: 22px 0; font-size: 36px; letter-spacing: -.05em; }
+  p { color: var(--muted); font-size: 14px; line-height: 2; }
+  a { display: inline-block; margin-top: 24px; color: var(--green); font-size: 13px; }
+</style>

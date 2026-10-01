@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { legacyPostPath, postDate } from '../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => {
+    const url = legacyPostPath(post.id, post.data.date);
+    return { params: { slug: url.slice(1, -1) }, props: { post } };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = postDate(post.id, post.data.date);
+---
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="article">
+    <a class="back" href="/">← 所有文章</a>
+    <header class="article-header">
+      <p class="eyebrow">文章 <span>·</span> {date.getFullYear()}.{String(date.getMonth() + 1).padStart(2, '0')}.{String(date.getDate()).padStart(2, '0')}</p>
+      <h1>{post.data.title}</h1>
+      <div class="byline"><img src="/img/avator.jpg" alt="" /><span>人不如狗</span><span class="dot">·</span><span>阅读笔记</span></div>
+    </header>
+    <div class="prose"><Content /></div>
+    <a class="end-link" href="/">← 返回文章列表</a>
+  </article>
+</BaseLayout>
+
+<style>
+  .article { max-width: 700px; margin: 0 auto; padding: 45px 0 74px; }
+  .back, .end-link { color: var(--muted); font-size: 12px; }
+  .article-header { padding: 47px 0 28px; border-bottom: 1px solid var(--line); }
+  .eyebrow { color: var(--green); font: 10px var(--mono); letter-spacing: .04em; }
+  .eyebrow span { color: #adb6af; }
+  h1 { margin: 20px 0 24px; font-size: clamp(30px, 5vw, 44px); line-height: 1.35; letter-spacing: -.045em; }
+  .byline { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 11px; }
+  .byline img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+  .dot { color: #b5bcb7; }
+  .prose { padding: 30px 0 46px; color: #404b46; font-size: 15px; line-height: 1.95; overflow-wrap: anywhere; }
+  .prose :global(h2) { margin: 2em 0 .8em; color: #28342f; font-size: 21px; }
+  .prose :global(p) { margin: 1.1em 0; }
+  .prose :global(blockquote) { margin: 1.5em 0; padding: 2px 0 2px 18px; border-left: 2px solid #90ad9b; color: var(--muted); }
+  .prose :global(table) { width: 100%; border-collapse: collapse; font-size: 12px; font-family: var(--mono); }
+  .prose :global(th), .prose :global(td) { padding: 8px 5px; border-bottom: 1px solid var(--line); text-align: center; }
+  .prose :global(th) { color: var(--green); font-weight: 500; }
+  .prose :global(code) { padding: 2px 5px; border-radius: 4px; background: #edeee8; font-size: .9em; }
+  .prose :global(a) { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+  .end-link { display: inline-block; padding-top: 20px; border-top: 1px solid var(--line); width: 100%; }
+</style>
