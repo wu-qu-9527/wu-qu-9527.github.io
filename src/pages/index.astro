@@ -8,17 +8,36 @@ const posts = (await getCollection('posts')).sort(
 );
 ---
 <BaseLayout title="首页">
-  <section class="intro">
-    <p class="eyebrow">个人博客 <span>·</span> 学习与记录</p>
-    <h1>你好，<span>欢迎来访。</span></h1>
-    <p class="lede">这里记录技术学习、项目实践，以及那些值得留下来的想法。</p>
-    <div class="intro-mark" aria-hidden="true">FM<span>·</span></div>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="status-dot"></span> 个人技术札记 <span class="eyebrow-en">NOTES FROM THE WORKBENCH</span></p>
+      <h1>保持好奇，<br /><span>持续动手。</span></h1>
+      <p class="lede">记录技术学习、项目实践与一路上的新发现。把复杂问题拆开，一点一点弄明白。</p>
+      <div class="hero-actions">
+        <a class="primary-link" href="#writing">浏览文章 <span aria-hidden="true">↓</span></a>
+        <a class="secondary-link" href="/about/">认识作者 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="hero-footnote"><span>学习 · 实践 · 记录</span><span>EST. 2025</span></div>
+    </div>
+    <div class="hero-art" aria-label="七段数码管图形插画">
+      <div class="art-topline"><span>逻辑电路 / 001</span><span>FIG. 01</span></div>
+      <div class="circuit-grid" aria-hidden="true"></div>
+      <div class="digit-display" aria-hidden="true">
+        <i class="segment segment-a"></i><i class="segment segment-b"></i>
+        <i class="segment segment-c"></i><i class="segment segment-d"></i>
+        <i class="segment segment-e"></i><i class="segment segment-f"></i>
+        <i class="segment segment-g"></i>
+      </div>
+      <div class="art-caption"><span>SEVEN SEGMENT DISPLAY</span><span>BCD → 7-SEG</span></div>
+      <span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span>
+    </div>
   </section>
 
-  <section class="posts" aria-labelledby="posts-title">
+  <section class="content-grid" id="writing" aria-labelledby="posts-title">
+    <div class="posts">
     <div class="section-heading">
-      <h2 id="posts-title">最近文章 <span>WRITING</span></h2>
-      <span class="count">{String(posts.length).padStart(2, '0')} 篇</span>
+      <div><p class="section-kicker">从这里开始</p><h2 id="posts-title">最近的记录</h2></div>
+      <span class="count">{String(posts.length).padStart(2, '0')} POSTS</span>
     </div>
     {posts.length ? (
       <div class="post-list">
@@ -26,8 +45,8 @@ const posts = (await getCollection('posts')).sort(
           const date = postDate(post.id, post.data.date);
           return (
             <a class="post-row" href={legacyPostPath(post.id, post.data.date, post.data.slug)}>
-              <span class="post-date">{date.getFullYear()}.{String(date.getMonth() + 1).padStart(2, '0')}.{String(date.getDate()).padStart(2, '0')}</span>
-              <span class="post-title">{post.data.title}</span>
+              <span class="post-date">{String(date.getFullYear()).slice(2)} / {String(date.getMonth() + 1).padStart(2, '0')}</span>
+              <span class="post-main"><span class="post-category">技术笔记 <span>·</span> 数字逻辑</span><span class="post-title">{post.data.title}</span><span class="post-summary">从真值表出发，用卡诺图化简七段数码管的输出逻辑。</span></span>
               <span class="arrow" aria-hidden="true">↗</span>
             </a>
           );
@@ -36,33 +55,95 @@ const posts = (await getCollection('posts')).sort(
     ) : (
       <p class="empty">文章正在整理中。</p>
     )}
+    </div>
+    <aside class="profile-card">
+      <div class="profile-top"><span class="section-kicker">ABOUT THE AUTHOR</span><span class="profile-mark">FM</span></div>
+      <img class="profile-avatar" src="/img/avator.jpg" alt="人不如狗" />
+      <h3>人不如狗</h3>
+      <p>喜欢把问题弄清楚，也喜欢把过程写下来。这里是我的学习工作台。</p>
+      <div class="tag-list"><span>嵌入式</span><span>数字电路</span><span>Linux</span></div>
+      <a class="profile-link" href="/about/">更多关于我 <span>↗</span></a>
+      <span class="profile-number">01 — 03</span>
+    </aside>
   </section>
 </BaseLayout>
 
 <style>
-  .intro { position: relative; padding: 84px 0 78px; border-bottom: 1px solid var(--line); overflow: hidden; }
-  .eyebrow { margin: 0 0 22px; color: var(--green); font: 11px var(--mono); letter-spacing: .08em; }
-  .eyebrow span { margin: 0 5px; color: #b0b7b2; }
-  h1 { max-width: 620px; margin: 0; font-size: clamp(40px, 7vw, 68px); line-height: 1.2; letter-spacing: -.065em; font-weight: 600; }
-  h1 span { color: #87938d; }
-  .lede { margin: 24px 0 0; max-width: 490px; color: var(--muted); font-size: 14px; line-height: 1.9; }
-  .intro-mark { position: absolute; right: 0; bottom: 8px; color: #e8e9e3; font: 110px/.9 var(--mono); letter-spacing: -.12em; user-select: none; }
-  .intro-mark span { color: #b7c9bb; }
-  .posts { padding: 42px 0 70px; }
-  .section-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  h2 { margin: 0; font-size: 15px; font-weight: 600; }
-  h2 span { margin-left: 10px; color: #98a29d; font: 9px var(--mono); letter-spacing: .08em; }
-  .count { color: var(--muted); font: 10px var(--mono); }
-  .post-row { display: grid; grid-template-columns: 112px 1fr 22px; align-items: center; gap: 18px; min-height: 68px; border-bottom: 1px solid var(--line); }
-  .post-date { color: var(--muted); font: 10px var(--mono); }
-  .post-title { font-size: 14px; font-weight: 500; }
-  .arrow { justify-self: end; color: #9ca69f; font-size: 16px; transition: transform .2s; }
+  .hero { position: relative; display: grid; grid-template-columns: 1.12fr .88fr; min-height: 430px; margin: 38px 0 0; overflow: hidden; border-radius: 8px; color: #f4f3ed; background: #203b32; box-shadow: 0 18px 45px #23392f14; }
+  .hero-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; padding: 55px 56px 25px; }
+  .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 34px; color: #c7d8cb; font: 10px var(--mono); letter-spacing: .04em; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #a8d2b5; box-shadow: 0 0 0 4px #a8d2b51c; }
+  .eyebrow-en { margin-left: 8px; color: #829b8d; font-size: 8px; letter-spacing: .11em; }
+  h1 { margin: 0; font-size: clamp(42px, 5.5vw, 66px); line-height: 1.25; letter-spacing: -.075em; font-weight: 600; }
+  h1 span { color: #a9c8b3; }
+  .lede { max-width: 390px; margin: 22px 0 0; color: #c0ccc3; font-size: 13px; line-height: 1.95; }
+  .hero-actions { display: flex; align-items: center; gap: 23px; margin-top: 30px; }
+  .primary-link { display: inline-flex; align-items: center; gap: 17px; padding: 11px 15px; border-radius: 4px; color: #24382e; background: #d2e2d3; font-size: 11px; font-weight: 600; transition: background .2s, transform .2s; }
+  .primary-link:hover { color: #24382e; background: white; transform: translateY(-2px); }
+  .secondary-link { color: #d1ded4; font-size: 11px; }
+  .secondary-link span { margin-left: 5px; color: #a8c8b2; }
+  .hero-footnote { display: flex; justify-content: space-between; width: 100%; margin-top: auto; padding-top: 26px; color: #8fa497; font: 9px var(--mono); letter-spacing: .04em; }
+  .hero-art { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 430px; overflow: hidden; padding: 25px 27px 26px; background: #2b4d40; }
+  .hero-art:before { position: absolute; inset: 0; content: ''; background: radial-gradient(ellipse at 50% 45%, #63836c42, transparent 58%), linear-gradient(135deg, transparent 49.8%, #ffffff0b 50%, transparent 50.3%); }
+  .art-topline, .art-caption { position: relative; z-index: 1; display: flex; justify-content: space-between; color: #adbfaf; font: 8px var(--mono); letter-spacing: .09em; }
+  .circuit-grid { position: absolute; inset: 15% 4% 16%; opacity: .27; background-image: linear-gradient(#bed2c11b 1px, transparent 1px), linear-gradient(90deg, #bed2c11b 1px, transparent 1px); background-size: 32px 32px; mask-image: radial-gradient(ellipse, black, transparent 72%); }
+  .digit-display { position: relative; width: 168px; height: 256px; margin: auto; transform: scale(.88); filter: drop-shadow(0 0 24px #abd5b126); }
+  .segment { position: absolute; display: block; border: 1px solid #a6cfb33c; background: #b8dfc04a; box-shadow: inset 0 0 12px #c6efd128, 0 0 17px #b5e2c01c; }
+  .segment-a, .segment-g, .segment-d { left: 30px; width: 108px; height: 17px; clip-path: polygon(9% 0, 91% 0, 100% 50%, 91% 100%, 9% 100%, 0 50%); }
+  .segment-a { top: 4px; }
+  .segment-g { top: 119px; }
+  .segment-d { bottom: 4px; }
+  .segment-b, .segment-c, .segment-e, .segment-f { width: 18px; height: 104px; clip-path: polygon(0 9%, 50% 0, 100% 9%, 100% 91%, 50% 100%, 0 91%); }
+  .segment-f { left: 11px; top: 12px; }
+  .segment-b { right: 11px; top: 12px; }
+  .segment-e { left: 11px; bottom: 12px; }
+  .segment-c { right: 11px; bottom: 12px; }
+  .art-orbit { position: absolute; width: 11px; height: 11px; border: 1px solid #b6d2bb90; border-radius: 50%; }
+  .orbit-one { top: 26%; left: 15%; }
+  .orbit-two { right: 14%; bottom: 28%; width: 6px; height: 6px; background: #b6d2bb; }
+  .content-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(250px, .8fr); gap: 54px; padding: 65px 0 76px; }
+  .posts { min-width: 0; }
+  .section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 20px; }
+  .section-kicker { margin: 0 0 7px; color: #819087; font: 8px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+  h2 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -.06em; }
+  .count { padding-bottom: 3px; color: #9ba59e; font: 9px var(--mono); letter-spacing: .06em; }
+  .post-list { border-top: 1px solid var(--line); }
+  .post-row { display: grid; grid-template-columns: 57px 1fr 24px; align-items: start; gap: 16px; min-height: 124px; padding: 22px 3px; border-bottom: 1px solid var(--line); transition: padding .2s, background .2s; }
+  .post-row:hover { padding-right: 9px; padding-left: 9px; background: #e9ebe4; }
+  .post-date { padding-top: 4px; color: #89948d; font: 9px var(--mono); }
+  .post-main { display: grid; gap: 7px; }
+  .post-category { color: var(--green); font-size: 9px; font-weight: 600; }
+  .post-category span { padding: 0 4px; color: #aab4ad; }
+  .post-title { font-size: 15px; font-weight: 600; letter-spacing: -.03em; }
+  .post-summary { color: #7a857e; font-size: 11px; line-height: 1.7; }
+  .arrow { justify-self: end; padding-top: 1px; color: #829087; font-size: 15px; transition: transform .2s, color .2s; }
   .post-row:hover .arrow { transform: translate(2px, -2px); color: var(--green); }
   .empty { padding: 24px 0; color: var(--muted); font-size: 13px; }
-  @media (max-width: 600px) {
-    .intro { padding: 66px 0 58px; }
-    .intro-mark { right: -6px; bottom: 3px; font-size: 74px; }
-    .post-row { grid-template-columns: 86px 1fr 16px; gap: 10px; min-height: 64px; }
-    .post-title { font-size: 13px; }
+  .profile-card { position: relative; align-self: start; padding: 22px 23px 19px; border: 1px solid #dedfd7; border-radius: 5px; background: #f7f6f1; }
+  .profile-top { display: flex; justify-content: space-between; align-items: start; }
+  .profile-mark { color: #d6dcd3; font: 18px var(--mono); letter-spacing: -.1em; }
+  .profile-avatar { width: 48px; height: 48px; margin-top: 22px; border: 2px solid white; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 8px #24302d16; }
+  h3 { margin: 12px 0 7px; font-size: 15px; letter-spacing: -.03em; }
+  .profile-card > p { margin: 0; color: #77827c; font-size: 10px; line-height: 1.9; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .tag-list span { padding: 5px 8px; border-radius: 3px; color: #536e60; background: #e8ede5; font: 8px var(--mono); }
+  .profile-link { display: flex; justify-content: space-between; margin-top: 19px; padding-top: 13px; border-top: 1px solid var(--line); color: var(--green); font-size: 10px; font-weight: 600; }
+  .profile-number { position: absolute; right: 23px; bottom: 21px; color: #a3ada5; font: 7px var(--mono); }
+  @media (max-width: 850px) {
+    .hero { grid-template-columns: 1fr .8fr; }
+    .hero-copy { padding: 45px 34px 22px; }
+    .eyebrow-en { display: none; }
+    .content-grid { gap: 28px; }
+  }
+  @media (max-width: 650px) {
+    .hero { grid-template-columns: 1fr; margin-top: 20px; }
+    .hero-copy { min-height: 350px; padding: 35px 25px 20px; }
+    .eyebrow { margin-bottom: 28px; }
+    h1 { font-size: 46px; }
+    .hero-art { min-height: 250px; }
+    .digit-display { width: 124px; height: 190px; transform: scale(.7); }
+    .content-grid { grid-template-columns: 1fr; gap: 30px; padding: 45px 0 55px; }
+    .profile-card { max-width: none; }
+    .post-row { grid-template-columns: 44px 1fr 20px; gap: 11px; }
   }
 </style>

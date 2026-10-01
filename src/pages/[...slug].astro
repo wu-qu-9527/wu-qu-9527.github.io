@@ -17,35 +17,52 @@ const date = postDate(post.id, post.data.date);
 ---
 <BaseLayout title={post.data.title} description={post.data.description}>
   <article class="article">
-    <a class="back" href="/">← 所有文章</a>
+    <a class="back" href="/"><span aria-hidden="true">←</span> 所有文章</a>
     <header class="article-header">
-      <p class="eyebrow">文章 <span>·</span> {date.getFullYear()}.{String(date.getMonth() + 1).padStart(2, '0')}.{String(date.getDate()).padStart(2, '0')}</p>
+      <p class="eyebrow"><span class="article-dot"></span> 技术笔记 <span>·</span> DIGITAL LOGIC</p>
       <h1>{post.data.title}</h1>
-      <div class="byline"><img src="/img/avator.jpg" alt="" /><span>人不如狗</span><span class="dot">·</span><span>阅读笔记</span></div>
+      <div class="byline"><img src="/img/avator.jpg" alt="" /><span>人不如狗</span><span class="dot">·</span><time datetime={date.toISOString()}>{date.getFullYear()}.{String(date.getMonth() + 1).padStart(2, '0')}.{String(date.getDate()).padStart(2, '0')}</time><span class="reading-time">约 3 分钟</span></div>
+      <span class="header-index">FIELD NOTE<br />NO. 001</span>
     </header>
-    <div class="prose"><Content /></div>
+    <div class="article-paper"><div class="prose"><Content /></div></div>
     <a class="end-link" href="/">← 返回文章列表</a>
   </article>
 </BaseLayout>
 
 <style>
-  .article { max-width: 700px; margin: 0 auto; padding: 45px 0 74px; }
-  .back, .end-link { color: var(--muted); font-size: 12px; }
-  .article-header { padding: 47px 0 28px; border-bottom: 1px solid var(--line); }
-  .eyebrow { color: var(--green); font: 10px var(--mono); letter-spacing: .04em; }
-  .eyebrow span { color: #adb6af; }
-  h1 { margin: 20px 0 24px; font-size: clamp(30px, 5vw, 44px); line-height: 1.35; letter-spacing: -.045em; }
-  .byline { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 11px; }
-  .byline img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
-  .dot { color: #b5bcb7; }
-  .prose { padding: 30px 0 46px; color: #404b46; font-size: 15px; line-height: 1.95; overflow-wrap: anywhere; }
-  .prose :global(h2) { margin: 2em 0 .8em; color: #28342f; font-size: 21px; }
+  .article { max-width: 840px; margin: 0 auto; padding: 34px 0 74px; }
+  .back, .end-link { color: var(--muted); font-size: 11px; }
+  .back { display: inline-flex; align-items: center; gap: 8px; padding: 9px 0; }
+  .back span { color: var(--green); }
+  .article-header { position: relative; overflow: hidden; margin-top: 17px; padding: 43px 48px 35px; border-radius: 6px; color: #f4f3ed; background: #203b32; }
+  .article-header:after { position: absolute; right: 44px; bottom: -83px; width: 240px; height: 240px; border: 1px solid #ffffff12; border-radius: 50%; box-shadow: 0 0 0 25px #ffffff08, 0 0 0 50px #ffffff05; content: ''; }
+  .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 23px; color: #b7cdbd; font: 9px var(--mono); letter-spacing: .08em; }
+  .eyebrow > span:not(.article-dot) { color: #81998a; }
+  .article-dot { width: 6px; height: 6px; border-radius: 50%; background: #a8d2b5; }
+  h1 { position: relative; z-index: 1; max-width: 650px; margin: 0 0 28px; color: #f3f2ec; font-size: clamp(29px, 4.4vw, 43px); line-height: 1.4; letter-spacing: -.06em; }
+  .byline { position: relative; z-index: 1; display: flex; align-items: center; gap: 9px; color: #bdcbc0; font-size: 10px; }
+  .byline img { width: 25px; height: 25px; border: 1px solid #ffffff66; border-radius: 50%; object-fit: cover; }
+  .dot { color: #71887b; }
+  .reading-time { margin-left: 8px; color: #8ea496; font: 9px var(--mono); }
+  .header-index { position: absolute; top: 43px; right: 48px; color: #8ba394; font: 8px/1.8 var(--mono); letter-spacing: .09em; text-align: right; }
+  .article-paper { padding: 10px 48px; border: 1px solid #e6e6de; border-top: 0; border-radius: 0 0 6px 6px; background: #f8f7f2; }
+  .prose { max-width: 690px; margin: 0 auto; padding: 24px 0 38px; color: #3c4842; font-size: 14px; line-height: 2; overflow-wrap: anywhere; }
+  .prose :global(h2) { display: flex; align-items: center; gap: 13px; margin: 2.1em 0 .8em; color: #26372f; font-size: 20px; letter-spacing: -.04em; }
+  .prose :global(h2:before) { width: 3px; height: 20px; border-radius: 3px; background: #77a18a; content: ''; }
   .prose :global(p) { margin: 1.1em 0; }
-  .prose :global(blockquote) { margin: 1.5em 0; padding: 2px 0 2px 18px; border-left: 2px solid #90ad9b; color: var(--muted); }
-  .prose :global(table) { width: 100%; border-collapse: collapse; font-size: 12px; font-family: var(--mono); }
-  .prose :global(th), .prose :global(td) { padding: 8px 5px; border-bottom: 1px solid var(--line); text-align: center; }
-  .prose :global(th) { color: var(--green); font-weight: 500; }
-  .prose :global(code) { padding: 2px 5px; border-radius: 4px; background: #edeee8; font-size: .9em; }
+  .prose :global(blockquote) { margin: 1.5em 0; padding: 9px 16px; border-left: 2px solid #83a88f; color: var(--muted); background: #eff1eb; }
+  .prose :global(table) { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 11px; font-family: var(--mono); }
+  .prose :global(th), .prose :global(td) { min-width: 34px; padding: 8px 5px; border-bottom: 1px solid var(--line); text-align: center; }
+  .prose :global(th) { color: var(--green); background: #edf0e9; font-weight: 500; }
+  .prose :global(code) { padding: 2px 5px; border-radius: 4px; background: #e9ece5; font-size: .9em; }
   .prose :global(a) { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
-  .end-link { display: inline-block; padding-top: 20px; border-top: 1px solid var(--line); width: 100%; }
+  .end-link { display: inline-block; width: 100%; padding: 18px 0 0; border-top: 1px solid #e7e6de; }
+  @media (max-width: 650px) {
+    .article { padding-top: 18px; }
+    .article-header { padding: 34px 24px 27px; }
+    .header-index { top: 34px; right: 24px; }
+    .article-header:after { right: -50px; }
+    .article-paper { padding: 8px 20px; }
+    .prose { font-size: 13px; }
+  }
 </style>

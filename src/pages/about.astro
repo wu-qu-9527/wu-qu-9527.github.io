@@ -3,17 +3,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="关于">
   <section class="about">
-    <p class="eyebrow">ABOUT THIS SPACE</p>
-    <h1>关于这个角落</h1>
-    <p>你好，我是人不如狗。</p>
-    <p>这里用来记录技术学习、项目实践和日常思考。内容会慢慢更新，欢迎常来看看。</p>
-    <a href="/">回到文章列表 ↗</a>
+    <div class="about-card">
+      <div class="about-visual"><span class="about-orbit orbit-a"></span><span class="about-orbit orbit-b"></span><img src="/img/avator.jpg" alt="人不如狗" /></div>
+      <div class="about-copy">
+        <p class="eyebrow"><span></span> ABOUT THIS SPACE</p>
+        <h1>关于这个<br /><em>工作台。</em></h1>
+        <p class="hello">你好，我是人不如狗。</p>
+        <p class="description">这里用来记录技术学习、项目实践和日常思考。我喜欢把问题拆解清楚，也相信动手和记录能让知识留下来。</p>
+        <div class="about-tags"><span>嵌入式</span><span>数字电路</span><span>Linux</span></div>
+        <a href="/">回到文章列表 <span>↗</span></a>
+      </div>
+    </div>
+    <p class="about-note"><span>PERSONAL NOTES</span><span>SHANGHAI · EST. 2025</span></p>
   </section>
 </BaseLayout>
 <style>
-  .about { max-width: 620px; margin: 0 auto; padding: 92px 0; }
-  .eyebrow { color: var(--green); font: 10px var(--mono); letter-spacing: .08em; }
-  h1 { margin: 22px 0; font-size: 36px; letter-spacing: -.05em; }
-  p { color: var(--muted); font-size: 14px; line-height: 2; }
-  a { display: inline-block; margin-top: 24px; color: var(--green); font-size: 13px; }
+  .about { max-width: 980px; margin: 0 auto; padding: 55px 0 76px; }
+  .about-card { display: grid; grid-template-columns: .85fr 1.15fr; overflow: hidden; min-height: 470px; border-radius: 6px; background: #f8f7f2; box-shadow: 0 15px 45px #24302d0b; }
+  .about-visual { position: relative; display: grid; place-items: center; overflow: hidden; background: #203b32; }
+  .about-visual:before, .about-visual:after { position: absolute; width: 310px; height: 310px; border: 1px solid #c4ddcc20; border-radius: 50%; content: ''; }
+  .about-visual:after { width: 220px; height: 220px; }
+  .about-visual img { position: relative; z-index: 1; width: 108px; height: 108px; border: 5px solid #ffffffd9; border-radius: 50%; object-fit: cover; box-shadow: 0 12px 36px #101e1860; }
+  .about-orbit { position: absolute; z-index: 1; width: 8px; height: 8px; border-radius: 50%; background: #b6d5be; }
+  .orbit-a { top: 23%; right: 23%; }
+  .orbit-b { bottom: 25%; left: 24%; width: 5px; height: 5px; background: #87a893; }
+  .about-copy { align-self: center; padding: 58px 60px; }
+  .eyebrow { display: flex; align-items: center; gap: 9px; color: var(--green); font: 9px var(--mono); letter-spacing: .11em; }
+  .eyebrow span { width: 6px; height: 6px; border-radius: 50%; background: #72a087; }
+  h1 { margin: 25px 0 22px; font-size: clamp(36px, 5vw, 50px); line-height: 1.3; letter-spacing: -.07em; }
+  h1 em { color: #78917f; font-style: normal; }
+  .hello { margin: 0; color: #35453c; font-size: 14px; font-weight: 600; }
+  .description { max-width: 410px; margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 2; }
+  .about-tags { display: flex; gap: 7px; margin-top: 18px; }
+  .about-tags span { padding: 6px 9px; border-radius: 3px; color: #536e60; background: #e8ede5; font: 8px var(--mono); }
+  a { display: inline-flex; align-items: center; gap: 12px; margin-top: 27px; color: var(--green); font-size: 11px; font-weight: 600; }
+  .about-note { display: flex; justify-content: space-between; margin: 14px 0 0; color: #89958d; font: 8px var(--mono); letter-spacing: .1em; }
+  @media (max-width: 650px) {
+    .about { padding: 24px 0 52px; }
+    .about-card { grid-template-columns: 1fr; }
+    .about-visual { min-height: 220px; }
+    .about-visual:before { width: 220px; height: 220px; }
+    .about-visual:after { width: 160px; height: 160px; }
+    .about-visual img { width: 82px; height: 82px; }
+    .about-copy { padding: 34px 25px 38px; }
+    .about-note { font-size: 7px; }
+  }
 </style>
