@@ -25,7 +25,7 @@ const posts = (await getCollection('posts')).sort(
         {posts.map((post) => {
           const date = postDate(post.id, post.data.date);
           return (
-            <a class="post-row" href={legacyPostPath(post.id, post.data.date)}>
+            <a class="post-row" href={legacyPostPath(post.id, post.data.date, post.data.slug)}>
               <span class="post-date">{date.getFullYear()}.{String(date.getMonth() + 1).padStart(2, '0')}.{String(date.getDate()).padStart(2, '0')}</span>
               <span class="post-title">{post.data.title}</span>
               <span class="arrow" aria-hidden="true">↗</span>

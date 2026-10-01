@@ -7,8 +7,9 @@ export function postSlug(id: string) {
   return id.replace(/\.md$/, '').replace(/\\/g, '/').split('/').map(encodeURIComponent).join('/');
 }
 
-export function legacyPostPath(id: string, date?: Date) {
+export function legacyPostPath(id: string, date: Date, slug?: string) {
   const published = postDate(id, date);
   const title = id.split('/').pop()?.replace(/\.md$/, '') ?? id;
-  return `/${published.getFullYear()}/${String(published.getMonth() + 1).padStart(2, '0')}/${String(published.getDate()).padStart(2, '0')}/${encodeURIComponent(title)}/`;
+  const pathSlug = slug ?? encodeURIComponent(title);
+  return `/${published.getFullYear()}/${String(published.getMonth() + 1).padStart(2, '0')}/${String(published.getDate()).padStart(2, '0')}/${pathSlug}/`;
 }

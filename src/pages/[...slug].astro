@@ -6,7 +6,7 @@ import { legacyPostPath, postDate } from '../lib/posts';
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
   return posts.map((post) => {
-    const url = legacyPostPath(post.id, post.data.date);
+    const url = legacyPostPath(post.id, post.data.date, post.data.slug);
     return { params: { slug: url.slice(1, -1) }, props: { post } };
   });
 }
