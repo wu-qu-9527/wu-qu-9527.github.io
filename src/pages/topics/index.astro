@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { collectTopics, topicPath } from '../../lib/topics';
+
+const topics = collectTopics(await getCollection('posts'));
+---
+<BaseLayout title="专题" description="按专题整理的文章与学习系列。">
+  <section class="topic-directory">
+    <a class="back-link" href="/">← 返回首页</a>
+    <header class="directory-header">
+      <p class="eyebrow"><span></span> KNOWLEDGE SERIES</p>
+      <h1>按主题，<em>慢慢读。</em></h1>
+      <p>把相关的文章收在一起，从一个问题开始，沿着线索继续探索。</p>
+      <div class="header-count"><strong>{String(topics.length).padStart(2, '0')}</strong><span>个专题</span></div>
+    </header>
+
+    {topics.length ? (
+      <section class="topic-list" aria-label="专题列表">
+        {topics.map((topic, index) => (
+          <a class="topic-card" href={topicPath(topic.slug)}>
+            <span class="topic-number">{String(index + 1).padStart(2, '0')}</span>
+            <span class="topic-copy">
+              <span class="topic-kicker">专题系列 <i>·</i> {String(topic.posts.length).padStart(2, '0')} 篇文章</span>
+              <strong>{topic.title}</strong>
+              <span class="topic-description">{topic.description ?? '围绕这个主题持续记录与整理。'}</span>
+            </span>
+            <span class="topic-arrow" aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </section>
+    ) : (
+      <p class="empty-state">还没有专题。给文章添加 topics 字段后，专题会自动显示在这里。</p>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .topic-directory { max-width: 930px; margin: 0 auto; padding: 32px 0 75px; }
+  .back-link { color: var(--muted); font-size: 11px; }
+  .directory-header { position: relative; padding: 51px 0 39px; border-bottom: 1px solid var(--line); }
+  .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 20px; color: var(--green); font: 9px var(--mono); letter-spacing: .13em; }
+  .eyebrow span { width: 6px; height: 6px; border-radius: 50%; background: #79a18a; }
+  h1 { margin: 0; font-size: clamp(38px, 6vw, 56px); line-height: 1.3; letter-spacing: -.07em; }
+  h1 em { color: #809888; font-style: normal; }
+  .directory-header > p:last-of-type { max-width: 500px; margin: 16px 0 0; color: var(--muted); font-size: 12px; line-height: 1.9; }
+  .header-count { position: absolute; right: 8px; bottom: 40px; display: flex; align-items: baseline; gap: 8px; color: var(--muted); }
+  .header-count strong { color: var(--green); font: 24px var(--mono); }
+  .header-count span { font-size: 10px; }
+  .topic-list { padding-top: 9px; }
+  .topic-card { display: grid; grid-template-columns: 64px 1fr 32px; gap: 16px; align-items: center; min-height: 142px; padding: 22px 12px; border-bottom: 1px solid var(--line); transition: background .2s, padding .2s; }
+  .topic-card:hover { padding-right: 20px; padding-left: 20px; background: #e8ebe4; }
+  .topic-number { align-self: start; padding-top: 4px; color: #91a097; font: 12px var(--mono); }
+  .topic-copy { display: grid; gap: 8px; }
+  .topic-kicker { color: var(--green); font: 8px var(--mono); letter-spacing: .08em; }
+  .topic-kicker i { padding: 0 5px; color: #aab5ad; font-style: normal; }
+  .topic-copy strong { font-size: 18px; letter-spacing: -.04em; }
+  .topic-description { color: var(--muted); font-size: 11px; line-height: 1.8; }
+  .topic-arrow { justify-self: end; color: #829087; font-size: 17px; transition: transform .2s; }
+  .topic-card:hover .topic-arrow { transform: translate(2px, -2px); color: var(--green); }
+  .empty-state { margin-top: 28px; padding: 24px; border: 1px dashed #cdd2c9; color: var(--muted); font-size: 12px; }
+  @media (max-width: 650px) {
+    .topic-directory { padding: 22px 0 55px; }
+    .directory-header { padding: 40px 0 32px; }
+    .header-count { right: 0; bottom: 31px; }
+    .header-count strong { font-size: 19px; }
+    .topic-card { grid-template-columns: 32px 1fr 22px; gap: 11px; min-height: 130px; padding: 18px 3px; }
+    .topic-copy strong { font-size: 16px; }
+  }
+</style>

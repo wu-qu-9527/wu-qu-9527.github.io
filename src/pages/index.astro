@@ -2,10 +2,12 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { legacyPostPath, postDate } from '../lib/posts';
+import { collectTopics, topicPath } from '../lib/topics';
 
 const posts = (await getCollection('posts')).sort(
   (a, b) => postDate(b.id, b.data.date).getTime() - postDate(a.id, a.data.date).getTime(),
 );
+const topics = collectTopics(posts);
 ---
 <BaseLayout title="首页">
   <section class="hero">
@@ -33,6 +35,25 @@ const posts = (await getCollection('posts')).sort(
     </div>
   </section>
 
+  {topics.length > 0 && (
+    <section class="topic-feature" aria-labelledby="topics-title">
+      <div class="topic-feature-heading">
+        <div><p class="section-kicker">SERIES TO EXPLORE</p><h2 id="topics-title">专题</h2></div>
+        <a href="/topics/">全部专题 <span>↗</span></a>
+      </div>
+      <div class="topic-feature-grid">
+        {topics.slice(0, 3).map((topic, index) => (
+          <a class="topic-feature-card" href={topicPath(topic.slug)}>
+            <span class="topic-feature-number">SERIES / {String(index + 1).padStart(2, '0')}</span>
+            <strong>{topic.title}</strong>
+            <span class="topic-feature-description">{topic.description ?? '围绕这个主题持续记录与整理。'}</span>
+            <span class="topic-feature-meta">{topic.posts.length} 篇文章 <i>↗</i></span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
   <section class="content-grid" id="writing" aria-labelledby="posts-title">
     <div class="posts">
     <div class="section-heading">
@@ -46,7 +67,7 @@ const posts = (await getCollection('posts')).sort(
           return (
             <a class="post-row" href={legacyPostPath(post.id, post.data.date, post.data.slug)}>
               <span class="post-date">{String(date.getFullYear()).slice(2)} / {String(date.getMonth() + 1).padStart(2, '0')}</span>
-              <span class="post-main"><span class="post-category">技术笔记 <span>·</span> 数字逻辑</span><span class="post-title">{post.data.title}</span><span class="post-summary">从真值表出发，用卡诺图化简七段数码管的输出逻辑。</span></span>
+              <span class="post-main"><span class="post-category">{post.data.topics[0]?.title ?? '技术笔记'}</span><span class="post-title">{post.data.title}</span><span class="post-summary">{post.data.description ?? '点击查看文章内容。'}</span></span>
               <span class="arrow" aria-hidden="true">↗</span>
             </a>
           );
@@ -101,6 +122,19 @@ const posts = (await getCollection('posts')).sort(
   .art-orbit { position: absolute; width: 11px; height: 11px; border: 1px solid #b6d2bb90; border-radius: 50%; }
   .orbit-one { top: 26%; left: 15%; }
   .orbit-two { right: 14%; bottom: 28%; width: 6px; height: 6px; background: #b6d2bb; }
+  .topic-feature { padding: 42px 0 0; }
+  .topic-feature-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 15px; }
+  .topic-feature-heading h2 { margin: 0; font-size: 19px; letter-spacing: -.05em; }
+  .topic-feature-heading > a { padding-bottom: 2px; color: var(--green); font-size: 9px; font-weight: 600; }
+  .topic-feature-heading > a span { margin-left: 5px; }
+  .topic-feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .topic-feature-card { display: flex; flex-direction: column; min-height: 144px; padding: 16px 17px 13px; border: 1px solid #dedfd7; border-radius: 4px; background: #f7f6f1; transition: transform .2s, border-color .2s, box-shadow .2s; }
+  .topic-feature-card:hover { transform: translateY(-3px); border-color: #afc2b3; box-shadow: 0 9px 24px #24302d0c; }
+  .topic-feature-number { color: #84938a; font: 7px var(--mono); letter-spacing: .1em; }
+  .topic-feature-card strong { margin-top: 13px; font-size: 13px; letter-spacing: -.03em; }
+  .topic-feature-description { margin-top: 6px; color: var(--muted); font-size: 9px; line-height: 1.7; }
+  .topic-feature-meta { display: flex; justify-content: space-between; margin-top: auto; padding-top: 13px; color: #718176; font: 8px var(--mono); }
+  .topic-feature-meta i { color: var(--green); font-size: 11px; font-style: normal; }
   .content-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(250px, .8fr); gap: 54px; padding: 65px 0 76px; }
   .posts { min-width: 0; }
   .section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 20px; }
@@ -143,6 +177,9 @@ const posts = (await getCollection('posts')).sort(
     .hero-art { min-height: 250px; }
     .digit-display { width: 124px; height: 190px; transform: scale(.7); }
     .content-grid { grid-template-columns: 1fr; gap: 30px; padding: 45px 0 55px; }
+    .topic-feature { padding-top: 35px; }
+    .topic-feature-grid { grid-template-columns: 1fr; gap: 8px; }
+    .topic-feature-card { min-height: 128px; }
     .profile-card { max-width: none; }
     .post-row { grid-template-columns: 44px 1fr 20px; gap: 11px; }
   }

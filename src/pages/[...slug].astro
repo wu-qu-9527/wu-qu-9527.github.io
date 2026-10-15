@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { legacyPostPath, postDate } from '../lib/posts';
+import { topicPath } from '../lib/topics';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -19,12 +20,25 @@ const date = postDate(post.id, post.data.date);
   <article class="article">
     <a class="back" href="/"><span aria-hidden="true">←</span> 所有文章</a>
     <header class="article-header">
-      <p class="eyebrow"><span class="article-dot"></span> 技术笔记 <span>·</span> DIGITAL LOGIC</p>
+      <p class="eyebrow"><span class="article-dot"></span> {post.data.topics[0]?.title ?? '技术笔记'} <span>·</span> FIELD NOTES</p>
       <h1>{post.data.title}</h1>
       <div class="byline"><img src="/img/avator.jpg" alt="" /><span>人不如狗</span><span class="dot">·</span><time datetime={date.toISOString()}>{date.getFullYear()}.{String(date.getMonth() + 1).padStart(2, '0')}.{String(date.getDate()).padStart(2, '0')}</time><span class="reading-time">约 3 分钟</span></div>
       <span class="header-index">FIELD NOTE<br />NO. 001</span>
     </header>
-    <div class="article-paper"><div class="prose"><Content /></div></div>
+    <div class="article-paper">
+      {post.data.topics.length > 0 && (
+        <aside class="topic-context">
+          <span>专题</span>
+          {post.data.topics.map((topic) => <a href={topicPath(topic.slug)}>{topic.title} <i>↗</i></a>)}
+        </aside>
+      )}
+      {post.data.tags.length > 0 && (
+        <div class="article-tags" aria-label="文章标签">
+          {post.data.tags.map((tag) => <span>#{tag}</span>)}
+        </div>
+      )}
+      <div class="prose"><Content /></div>
+    </div>
     <a class="end-link" href="/">← 返回文章列表</a>
   </article>
 </BaseLayout>
@@ -46,6 +60,12 @@ const date = postDate(post.id, post.data.date);
   .reading-time { margin-left: 8px; color: #8ea496; font: 9px var(--mono); }
   .header-index { position: absolute; top: 43px; right: 48px; color: #8ba394; font: 8px/1.8 var(--mono); letter-spacing: .09em; text-align: right; }
   .article-paper { padding: 10px 48px; border: 1px solid #e6e6de; border-top: 0; border-radius: 0 0 6px 6px; background: #f8f7f2; }
+  .topic-context { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; max-width: 690px; margin: 14px auto 0; padding: 12px 14px; border-radius: 4px; background: #edf0e9; }
+  .topic-context > span { margin-right: 4px; color: var(--muted); font-size: 9px; }
+  .topic-context a { padding: 5px 8px; border-radius: 3px; color: var(--green); background: #dfe8de; font-size: 9px; font-weight: 600; }
+  .topic-context i { margin-left: 3px; font-style: normal; }
+  .article-tags { display: flex; flex-wrap: wrap; gap: 8px; max-width: 690px; margin: 16px auto 0; }
+  .article-tags span { padding: 4px 8px; border-radius: 3px; color: var(--green); background: #edf0e9; font-size: 11px; }
   .prose { max-width: 690px; margin: 0 auto; padding: 24px 0 38px; color: #3c4842; font-size: 14px; line-height: 2; overflow-wrap: anywhere; }
   .prose :global(h2) { display: flex; align-items: center; gap: 13px; margin: 2.1em 0 .8em; color: #26372f; font-size: 20px; letter-spacing: -.04em; }
   .prose :global(h2:before) { width: 3px; height: 20px; border-radius: 3px; background: #77a18a; content: ''; }
@@ -55,6 +75,9 @@ const date = postDate(post.id, post.data.date);
   .prose :global(th), .prose :global(td) { min-width: 34px; padding: 8px 5px; border-bottom: 1px solid var(--line); text-align: center; }
   .prose :global(th) { color: var(--green); background: #edf0e9; font-weight: 500; }
   .prose :global(code) { padding: 2px 5px; border-radius: 4px; background: #e9ece5; font-size: .9em; }
+  .prose :global(pre.astro-code) { margin: 1.6em 0; padding: 17px 19px; border: 1px solid #3a4248; border-radius: 6px; font-size: 11px; line-height: 1.8; tab-size: 4; box-shadow: 0 8px 22px #18221c12; }
+  .prose :global(pre.astro-code > code) { display: block; padding: 0; border-radius: 0; color: inherit; background: transparent; font-size: inherit; }
+  .prose :global(pre.astro-code code .line) { background: transparent; }
   .prose :global(a) { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
   .end-link { display: inline-block; width: 100%; padding: 18px 0 0; border-top: 1px solid #e7e6de; }
   @media (max-width: 650px) {
@@ -63,6 +86,7 @@ const date = postDate(post.id, post.data.date);
     .header-index { top: 34px; right: 24px; }
     .article-header:after { right: -50px; }
     .article-paper { padding: 8px 20px; }
+    .topic-context { margin-top: 11px; }
     .prose { font-size: 13px; }
   }
 </style>

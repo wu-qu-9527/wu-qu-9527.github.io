@@ -17,6 +17,9 @@ const pageTitle = title === '首页' ? '人不如狗' : `${title} | 人不如狗
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f6f5f1" />
     <title>{pageTitle}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/jpeg" href="/img/avator.jpg" />
   </head>
   <body class="min-h-screen antialiased">
@@ -28,6 +31,7 @@ const pageTitle = title === '首页' ? '人不如狗' : `${title} | 人不如狗
         </a>
         <nav aria-label="主导航">
           <a href="/">文章</a>
+          <a href="/topics/">专题</a>
           <a href="/about/">关于</a>
         </nav>
       </header>
