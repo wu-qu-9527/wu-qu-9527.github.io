@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CollectionIndex from '../components/CollectionIndex.astro';
+import { legacyPostPath, postDate } from '../lib/posts';
+const posts = (await getCollection('posts')).sort((a,b) => postDate(b.id,b.data.date).getTime() - postDate(a.id,a.data.date).getTime());
+---
+<BaseLayout title="文章">
+  <CollectionIndex title="文章" kicker="文章" count={`${String(posts.length).padStart(2,'0')} 篇文章`} label="文章索引" link="/topics/" linkLabel="按专题阅读">
+    {posts.map((post,index) => <a class="index-entry" href={legacyPostPath(post.id,post.data.date,post.data.slug)}>
+      <span class="entry-number">{String(index+1).padStart(2,'0')}</span>
+      <div>
+        <time class="entry-meta" datetime={postDate(post.id,post.data.date).toISOString()}>{postDate(post.id,post.data.date).toISOString().slice(0,10)}</time>
+        <h2>{post.data.title}</h2>
+        <p class="entry-description">{post.data.description}</p>
+        <span class="entry-category">{[...post.data.topics.map(t=>t.title), ...post.data.tags.map(t=>`#${t}`)].join(' · ')}</span>
+      </div>
+      <span class="entry-arrow" aria-hidden="true">↗</span>
+    </a>)}
+    {!posts.length && <p class="empty-state">文章正在整理中。</p>}
+  </CollectionIndex>
+</BaseLayout>

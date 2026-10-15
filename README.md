@@ -1,4 +1,4 @@
-# 人不如狗 · 个人博客
+# 无趣 · 个人博客
 
 基于 Astro 和 Tailwind CSS v4 的静态博客。文章使用 Markdown 编写，放在 `source/_posts/`。
 

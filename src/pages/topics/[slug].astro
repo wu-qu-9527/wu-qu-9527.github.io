@@ -15,10 +15,10 @@ const { topic } = Astro.props;
   <section class="topic-page">
     <a class="back-link" href="/topics/">← 所有专题</a>
     <header class="topic-hero">
-      <p class="eyebrow"><span></span> STUDY SERIES <i>·</i> {String(topic.posts.length).padStart(2, '0')} ARTICLES</p>
+      <p class="eyebrow"><span></span> 专题 <i>·</i> {String(topic.posts.length).padStart(2, '0')} 篇文章</p>
       <h1>{topic.title}</h1>
       <p class="topic-description">{topic.description ?? '围绕这个主题持续记录与整理。'}</p>
-      <span class="topic-stamp">FIELD<br />NOTES</span>
+
     </header>
     <section class="series-content" aria-labelledby="series-title">
       <div class="series-heading"><div><p class="section-kicker">本专题的学习路径</p><h2 id="series-title">文章目录</h2></div><span class="series-count">{topic.posts.length} 篇</span></div>
@@ -42,28 +42,28 @@ const { topic } = Astro.props;
 <style>
   .topic-page { max-width: 930px; margin: 0 auto; padding: 32px 0 76px; }
   .back-link { color: var(--muted); font-size: 11px; }
-  .topic-hero { position: relative; overflow: hidden; margin-top: 18px; padding: 46px 48px 43px; border-radius: 6px; color: #f4f3ed; background: #203b32; }
+  .topic-hero { position: relative; overflow: hidden; margin-top: 18px; padding: 46px 48px 43px; border-radius: 6px; color: #f5f0e6; background: #211c19; }
   .topic-hero:after { position: absolute; right: 45px; bottom: -115px; width: 270px; height: 270px; border: 1px solid #ffffff16; border-radius: 50%; box-shadow: 0 0 0 28px #ffffff08, 0 0 0 56px #ffffff05; content: ''; }
-  .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 24px; color: #b7cdbd; font: 9px var(--mono); letter-spacing: .08em; }
-  .eyebrow span { width: 6px; height: 6px; border-radius: 50%; background: #a8d2b5; }
-  .eyebrow i { color: #81998a; font-style: normal; }
+  .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 24px; color: #c7b9a8; font: 9px var(--mono); letter-spacing: .08em; }
+  .eyebrow span { width: 6px; height: 6px; border-radius: 50%; background: #df7561; }
+  .eyebrow i { color: #998b7c; font-style: normal; }
   h1 { position: relative; z-index: 1; margin: 0; font-size: clamp(35px, 5vw, 48px); letter-spacing: -.06em; }
-  .topic-description { position: relative; z-index: 1; max-width: 560px; margin: 15px 0 0; color: #c0ccc3; font-size: 12px; line-height: 1.9; }
-  .topic-stamp { position: absolute; top: 45px; right: 49px; color: #91a999; font: 8px/1.8 var(--mono); letter-spacing: .1em; text-align: right; }
+  .topic-description { position: relative; z-index: 1; max-width: 560px; margin: 15px 0 0; color: #c4b7a7; font-size: 12px; line-height: 1.9; }
+  .topic-stamp { position: absolute; top: 45px; right: 49px; color: #a99b8a; font: 8px/1.8 var(--mono); letter-spacing: .1em; text-align: right; }
   .series-content { padding-top: 50px; }
   .series-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 18px; }
-  .section-kicker { margin: 0 0 7px; color: #819087; font: 8px var(--mono); letter-spacing: .12em; }
+  .section-kicker { margin: 0 0 7px; color: #a99b8a; font: 8px var(--mono); letter-spacing: .12em; }
   h2 { margin: 0; font-size: 21px; letter-spacing: -.05em; }
   .series-count { padding-bottom: 3px; color: var(--muted); font: 9px var(--mono); }
   .series-list { border-top: 1px solid var(--line); }
   .series-row { display: grid; grid-template-columns: 42px minmax(0, 1fr) 82px 20px; gap: 15px; align-items: center; min-height: 100px; padding: 17px 9px; border-bottom: 1px solid var(--line); transition: background .2s, padding .2s; }
-  .series-row:hover { padding-right: 16px; padding-left: 16px; background: #e8ebe4; }
-  .series-index { align-self: start; padding-top: 4px; color: #90a096; font: 10px var(--mono); }
+  .series-row:hover { padding-right: 16px; padding-left: 16px; background: #241f1b; }
+  .series-index { align-self: start; padding-top: 4px; color: #a99b8a; font: 10px var(--mono); }
   .series-copy { display: grid; gap: 7px; }
   .series-copy strong { font-size: 13px; }
   .series-copy > span { color: var(--muted); font-size: 10px; line-height: 1.8; }
-  time { color: #89948d; font: 8px var(--mono); }
-  .series-arrow { justify-self: end; color: #829087; }
+  time { color: #a99b8a; font: 8px var(--mono); }
+  .series-arrow { justify-self: end; color: #b6a591; }
   @media (max-width: 650px) {
     .topic-page { padding: 22px 0 55px; }
     .topic-hero { padding: 35px 24px; }

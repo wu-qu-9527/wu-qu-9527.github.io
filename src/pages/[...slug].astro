@@ -18,12 +18,12 @@ const date = postDate(post.id, post.data.date);
 ---
 <BaseLayout title={post.data.title} description={post.data.description}>
   <article class="article">
-    <a class="back" href="/"><span aria-hidden="true">←</span> 所有文章</a>
+    <a class="back" href="/articles/"><span aria-hidden="true">←</span> 所有文章</a>
     <header class="article-header">
-      <p class="eyebrow"><span class="article-dot"></span> {post.data.topics[0]?.title ?? '技术笔记'} <span>·</span> FIELD NOTES</p>
+      <p class="eyebrow"><span class="article-dot"></span> {post.data.topics[0]?.title ?? '技术笔记'}</p>
       <h1>{post.data.title}</h1>
-      <div class="byline"><img src="/img/avator.jpg" alt="" /><span>人不如狗</span><span class="dot">·</span><time datetime={date.toISOString()}>{date.getFullYear()}.{String(date.getMonth() + 1).padStart(2, '0')}.{String(date.getDate()).padStart(2, '0')}</time><span class="reading-time">约 3 分钟</span></div>
-      <span class="header-index">FIELD NOTE<br />NO. 001</span>
+      <div class="byline"><img src="/img/avator.jpg" alt="" /><span>无趣</span><span class="dot">·</span><time datetime={date.toISOString()}>{date.getFullYear()}.{String(date.getMonth() + 1).padStart(2, '0')}.{String(date.getDate()).padStart(2, '0')}</time><span class="reading-time">约 3 分钟</span></div>
+
     </header>
     <div class="article-paper">
       {post.data.topics.length > 0 && (
@@ -39,7 +39,7 @@ const date = postDate(post.id, post.data.date);
       )}
       <div class="prose"><Content /></div>
     </div>
-    <a class="end-link" href="/">← 返回文章列表</a>
+    <a class="end-link" href="/articles/">← 返回文章列表</a>
   </article>
 </BaseLayout>
 
@@ -48,38 +48,38 @@ const date = postDate(post.id, post.data.date);
   .back, .end-link { color: var(--muted); font-size: 11px; }
   .back { display: inline-flex; align-items: center; gap: 8px; padding: 9px 0; }
   .back span { color: var(--green); }
-  .article-header { position: relative; overflow: hidden; margin-top: 17px; padding: 43px 48px 35px; border-radius: 6px; color: #f4f3ed; background: #203b32; }
+  .article-header { position: relative; overflow: hidden; margin-top: 17px; padding: 43px 48px 35px; border-radius: 6px; color: #f5f0e6; background: #211c19; }
   .article-header:after { position: absolute; right: 44px; bottom: -83px; width: 240px; height: 240px; border: 1px solid #ffffff12; border-radius: 50%; box-shadow: 0 0 0 25px #ffffff08, 0 0 0 50px #ffffff05; content: ''; }
-  .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 23px; color: #b7cdbd; font: 9px var(--mono); letter-spacing: .08em; }
-  .eyebrow > span:not(.article-dot) { color: #81998a; }
-  .article-dot { width: 6px; height: 6px; border-radius: 50%; background: #a8d2b5; }
-  h1 { position: relative; z-index: 1; max-width: 650px; margin: 0 0 28px; color: #f3f2ec; font-size: clamp(29px, 4.4vw, 43px); line-height: 1.4; letter-spacing: -.06em; }
-  .byline { position: relative; z-index: 1; display: flex; align-items: center; gap: 9px; color: #bdcbc0; font-size: 10px; }
+  .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 23px; color: #c7b9a8; font: 9px var(--mono); letter-spacing: .08em; }
+  .eyebrow > span:not(.article-dot) { color: #998b7c; }
+  .article-dot { width: 6px; height: 6px; border-radius: 50%; background: #df7561; }
+  h1 { position: relative; z-index: 1; max-width: 650px; margin: 0 0 28px; color: #f5f0e6; font-size: clamp(29px, 4.4vw, 43px); line-height: 1.4; letter-spacing: -.06em; }
+  .byline { position: relative; z-index: 1; display: flex; align-items: center; gap: 9px; color: #c4b7a7; font-size: 10px; }
   .byline img { width: 25px; height: 25px; border: 1px solid #ffffff66; border-radius: 50%; object-fit: cover; }
-  .dot { color: #71887b; }
-  .reading-time { margin-left: 8px; color: #8ea496; font: 9px var(--mono); }
-  .header-index { position: absolute; top: 43px; right: 48px; color: #8ba394; font: 8px/1.8 var(--mono); letter-spacing: .09em; text-align: right; }
-  .article-paper { padding: 10px 48px; border: 1px solid #e6e6de; border-top: 0; border-radius: 0 0 6px 6px; background: #f8f7f2; }
-  .topic-context { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; max-width: 690px; margin: 14px auto 0; padding: 12px 14px; border-radius: 4px; background: #edf0e9; }
+  .dot { color: #998b7c; }
+  .reading-time { margin-left: 8px; color: #ac9d8c; font: 9px var(--mono); }
+  .header-index { position: absolute; top: 43px; right: 48px; color: #ac9d8c; font: 8px/1.8 var(--mono); letter-spacing: .09em; text-align: right; }
+  .article-paper { padding: 10px 48px; border: 1px solid #3b342d; border-top: 0; border-radius: 0 0 6px 6px; background: #1b1916; }
+  .topic-context { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; max-width: 690px; margin: 14px auto 0; padding: 12px 14px; border-radius: 4px; background: #27211d; }
   .topic-context > span { margin-right: 4px; color: var(--muted); font-size: 9px; }
-  .topic-context a { padding: 5px 8px; border-radius: 3px; color: var(--green); background: #dfe8de; font-size: 9px; font-weight: 600; }
+  .topic-context a { padding: 5px 8px; border-radius: 3px; color: var(--green); background: #38251f; font-size: 9px; font-weight: 600; }
   .topic-context i { margin-left: 3px; font-style: normal; }
   .article-tags { display: flex; flex-wrap: wrap; gap: 8px; max-width: 690px; margin: 16px auto 0; }
-  .article-tags span { padding: 4px 8px; border-radius: 3px; color: var(--green); background: #edf0e9; font-size: 11px; }
-  .prose { max-width: 690px; margin: 0 auto; padding: 24px 0 38px; color: #3c4842; font-size: 14px; line-height: 2; overflow-wrap: anywhere; }
-  .prose :global(h2) { display: flex; align-items: center; gap: 13px; margin: 2.1em 0 .8em; color: #26372f; font-size: 20px; letter-spacing: -.04em; }
-  .prose :global(h2:before) { width: 3px; height: 20px; border-radius: 3px; background: #77a18a; content: ''; }
+  .article-tags span { padding: 4px 8px; border-radius: 3px; color: var(--green); background: #27211d; font-size: 11px; }
+  .prose { max-width: 690px; margin: 0 auto; padding: 24px 0 38px; color: #d5cbbc; font-size: 14px; line-height: 2; overflow-wrap: anywhere; }
+  .prose :global(h2) { display: flex; align-items: center; gap: 13px; margin: 2.1em 0 .8em; color: #f5f0e6; font-size: 20px; letter-spacing: -.04em; }
+  .prose :global(h2:before) { width: 3px; height: 20px; border-radius: 3px; background: #df7561; content: ''; }
   .prose :global(p) { margin: 1.1em 0; }
-  .prose :global(blockquote) { margin: 1.5em 0; padding: 9px 16px; border-left: 2px solid #83a88f; color: var(--muted); background: #eff1eb; }
+  .prose :global(blockquote) { margin: 1.5em 0; padding: 9px 16px; border-left: 2px solid #c96a55; color: var(--muted); background: #241f1b; }
   .prose :global(table) { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 11px; font-family: var(--mono); }
   .prose :global(th), .prose :global(td) { min-width: 34px; padding: 8px 5px; border-bottom: 1px solid var(--line); text-align: center; }
-  .prose :global(th) { color: var(--green); background: #edf0e9; font-weight: 500; }
-  .prose :global(code) { padding: 2px 5px; border-radius: 4px; background: #e9ece5; font-size: .9em; }
-  .prose :global(pre.astro-code) { margin: 1.6em 0; padding: 17px 19px; border: 1px solid #3a4248; border-radius: 6px; font-size: 11px; line-height: 1.8; tab-size: 4; box-shadow: 0 8px 22px #18221c12; }
+  .prose :global(th) { color: var(--green); background: #27211d; font-weight: 500; }
+  .prose :global(code) { padding: 2px 5px; border-radius: 4px; background: #302721; font-size: .9em; }
+  .prose :global(pre.astro-code) { margin: 1.6em 0; padding: 17px 19px; border: 1px solid #3b342d; border-radius: 6px; font-size: 11px; line-height: 1.8; tab-size: 4; box-shadow: 0 8px 22px #18221c12; }
   .prose :global(pre.astro-code > code) { display: block; padding: 0; border-radius: 0; color: inherit; background: transparent; font-size: inherit; }
   .prose :global(pre.astro-code code .line) { background: transparent; }
   .prose :global(a) { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
-  .end-link { display: inline-block; width: 100%; padding: 18px 0 0; border-top: 1px solid #e7e6de; }
+  .end-link { display: inline-block; width: 100%; padding: 18px 0 0; border-top: 1px solid #3b342d; }
   @media (max-width: 650px) {
     .article { padding-top: 18px; }
     .article-header { padding: 34px 24px 27px; }
