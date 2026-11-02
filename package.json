@@ -15,5 +15,8 @@
     "gray-matter": "^4.0.3",
     "tailwindcss": "^4.3.3",
     "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   }
 }
